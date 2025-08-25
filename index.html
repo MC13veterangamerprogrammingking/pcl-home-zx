@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCL 我的世界启动器主页制作器</title>
+    <style>
+        :root {
+            --primary-color: #2b7bba;
+            --secondary-color: #3a3a3a;
+            --light-bg: #f5f5f5;
+            --border-color: #ddd;
+            --hover-color: #e9f2f9;
+            --card-bg: #fff;
+            --text-color: #333;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .components-panel {
+            width: 250px;
+            background-color: var(--light-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 15px;
+            overflow-y: auto;
+        }
+        
+        .component-category {
+            margin-bottom: 20px;
+        }
+        
+        .category-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--primary-color);
+        }
+        
+        .component-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: grab;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .component-item:hover {
+            background-color: var(--hover-color);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .component-item i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        .design-area {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            position: relative;
+        }
+        
+        .properties-panel {
+            width: 300px;
+            background-color: var(--light-bg);
+            border-left: 1px solid var(--border-color);
+            padding: 15px;
+            overflow-y: auto;
+        }
+        
+        .property-group {
+            margin-bottom: 20px;
+            background-color: var(--card-bg);
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .property-title {
+            font-weight: bold;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--primary-color);
+        }
+        
+        .property-item {
+            margin-bottom: 12px;
+        }
+        
+        .property-item label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .property-item input, .property-item select, .property-item textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .property-item input:focus, .property-item select:focus, .property-item textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(43, 123, 186, 0.2);
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-content {
+            padding: 15px;
+        }
+        
+        .button {
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-weight: 500;
+        }
+        
+        .button:hover {
+            background-color: #1c639c;
+        }
+        
+        .button-danger {
+            background-color: #e74c3c;
+        }
+        
+        .button-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .hint {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            border-radius: 4px;
+        }
+        
+        .menu-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .menu-button {
+            padding: 8px 15px;
+            background-color: #f0f0f0;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+        
+        .menu-button:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .component-placeholder {
+            border: 2px dashed #ccc;
+            padding: 40px 20px;
+            text-align: center;
+            color: #999;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: rgba(255,255,255,0.5);
+        }
+        
+        .selected {
+            box-shadow: 0 0 0 2px var(--primary-color) !important;
+        }
+        
+        .button-preview {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        
+        .text-button-preview {
+            display: inline-block;
+            padding: 5px 10px;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+        
+        .hint-preview {
+            padding: 10px;
+            background-color: #e3f2fd;
+            border-left: 4px solid var(--primary-color);
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            width: 500px;
+            max-width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .modal-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .close {
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        
+        .code-editor {
+            width: 100%;
+            height: 300px;
+            font-family: monospace;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            resize: none;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+        }
+        
+        .status-bar {
+            padding: 8px 15px;
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+        
+        /* 图标字体样式 */
+        .icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            background-size: cover;
+        }
+        
+        .icon-card { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232b7bba'%3E%3Cpath d='M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z'/%3E%3C/svg%3E"); }
+        .icon-text { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232b7bba'%3E%3Cpath d='M2.5 4v3h5v12h3V7h5V4h-13zm19 5h-9v3h3v7h3v-7h3V9z'/%3E%3C/svg%3E"); }
+        .icon-button { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232b7bba'%3E%3Cpath d='M19 6H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 10H5V8h14v8z'/%3E%3C/svg%3E"); }
+        .icon-hint { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232b7bba'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3C/svg%3E"); }
+        .icon-image { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232b7bba'%3E%3Cpath d='M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z'/%3E%3C/svg%3E"); }
+        .icon-stack { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232b7bba'%3E%3Cpath d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 2v12h16V6H4zm4 10h8v-2H8v2z'/%3E%3C/svg%3E"); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="icon icon-card"></i> PCL 主页制作器
+        </div>
+        <div>
+            <button class="button" id="preview-btn">预览</button>
+            <button class="button" id="save-btn">保存</button>
+            <button class="button" id="load-btn">加载</button>
+        </div>
+    </header>
+    
+    <div class="main-container">
+        <div class="components-panel">
+            <div class="component-category">
+                <div class="category-title">基础组件</div>
+                <div class="component-item" data-type="card">
+                    <i class="icon icon-card"></i>
+                    <span>卡片 (MyCard)</span>
+                </div>
+                <div class="component-item" data-type="text">
+                    <i class="icon icon-text"></i>
+                    <span>文本 (TextBlock)</span>
+                </div>
+                <div class="component-item" data-type="hint">
+                    <i class="icon icon-hint"></i>
+                    <span>提示条 (MyHint)</span>
+                </div>
+                <div class="component-item" data-type="image">
+                    <i class="icon icon-image"></i>
+                    <span>图片 (MyImage)</span>
+                </div>
+            </div>
+            
+            <div class="component-category">
+                <div class="category-title">交互组件</div>
+                <div class="component-item" data-type="button">
+                    <i class="icon icon-button"></i>
+                    <span>按钮 (MyButton)</span>
+                </div>
+                <div class="component-item" data-type="text-button">
+                    <i class="icon icon-text"></i>
+                    <span>文本按钮 (MyTextButton)</span>
+                </div>
+                <div class="component-item" data-type="list-item">
+                    <i class="icon icon-card"></i>
+                    <span>列表项 (MyListItem)</span>
+                </div>
+            </div>
+            
+            <div class="component-category">
+                <div class="category-title">布局组件</div>
+                <div class="component-item" data-type="stack-panel">
+                    <i class="icon icon-stack"></i>
+                    <span>垂直布局 (StackPanel)</span>
+                </div>
+                <div class="component-item" data-type="horizontal-stack">
+                    <i class="icon icon-stack"></i>
+                    <span>水平布局 (Horizontal StackPanel)</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="design-area">
+            <div class="menu-bar">
+                <button class="menu-button" id="new-project">新建</button>
+                <button class="menu-button" id="import-xaml">导入 XAML</button>
+                <button class="menu-button" id="clear-all">清空所有</button>
+                <button class="menu-button" id="view-xaml">查看 XAML</button>
+            </div>
+            
+            <div class="component-placeholder">
+                将组件从左侧拖放到此处开始设计您的主页
+            </div>
+            
+            <div id="preview-container"></div>
+        </div>
+        
+        <div class="properties-panel">
+            <div class="property-group">
+                <div class="property-title">组件属性</div>
+                <div class="property-item">
+                    <label for="comp-type">组件类型</label>
+                    <input type="text" id="comp-type" disabled>
+                </div>
+                <div id="common-properties">
+                    <!-- 通用属性将在这里动态生成 -->
+                </div>
+            </div>
+            
+            <div class="property-group">
+                <div class="property-title">事件设置</div>
+                <div class="property-item">
+                    <label for="event-type">事件类型</label>
+                    <select id="event-type">
+                        <option value="">无事件</option>
+                        <option value="打开网页">打开网页</option>
+                        <option value="启动游戏">启动游戏</option>
+                        <option value="执行命令">执行命令/打开文件</option>
+                        <option value="弹出窗口">弹出窗口</option>
+                        <option value="复制文本">复制文本</option>
+                        <option value="今日人品">今日人品</option>
+                        <option value="清理垃圾">清理垃圾</option>
+                        <option value="内存优化">内存优化</option>
+                    </select>
+                </div>
+                <div class="property-item">
+                    <label for="event-data">事件数据</label>
+                    <textarea id="event-data" rows="3"></textarea>
+                </div>
+            </div>
+            
+            <div class="property-group">
+                <div class="property-title">操作</div>
+                <button class="button" id="apply-properties">应用更改</button>
+                <button class="button button-danger" id="remove-component">删除组件</button>
+                <button class="button" id="duplicate-component">复制组件</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        <div id="status-message">就绪</div>
+        <div id="component-count">组件: 0</div>
+    </div>
+
+    <!-- XAML 查看模态框 -->
+    <div class="modal" id="xaml-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">XAML 代码</div>
+                <span class="close">&times;</span>
+            </div>
+            <textarea class="code-editor" id="xaml-code" readonly></textarea>
+            <div style="margin-top: 15px; text-align: right;">
+                <button class="button" id="copy-xaml">复制代码</button>
+                <button class="button" id="close-xaml">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载文件模态框 -->
+    <div class="modal" id="load-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">加载 XAML 文件</div>
+                <span class="close">&times;</span>
+            </div>
+            <div class="property-item">
+                <label for="file-input">选择 XAML 文件</label>
+                <input type="file" id="file-input" accept=".xaml">
+            </div>
+            <div style="margin-top: 15px; text-align: right;">
+                <button class="button" id="confirm-load">加载</button>
+                <button class="button" id="cancel-load">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 通知 -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // 当前选中的组件
+        let selectedComponent = null;
+        let components = [];
+        
+        // 组件列表数据
+        const componentTypes = {
+            'card': {
+                name: '卡片 (MyCard)',
+                type: 'local:MyCard',
+                properties: {
+                    'Title': { type: 'text', value: '新卡片' },
+                    'Margin': { type: 'text', value: '0,0,0,15' },
+                    'CanSwap': { type: 'boolean', value: 'True' },
+                    'IsSwapped': { type: 'boolean', value: 'False' }
+                }
+            },
+            'text': {
+                name: '文本 (TextBlock)',
+                type: 'TextBlock',
+                properties: {
+                    'Text': { type: 'textarea', value: '示例文本' },
+                    'TextWrapping': { type: 'select', value: 'Wrap', options: ['Wrap', 'NoWrap'] },
+                    'Margin': { type: 'text', value: '0,0,0,4' },
+                    'FontSize': { type: 'number', value: '14' },
+                    'Foreground': { type: 'color', value: '#000000' }
+                }
+            },
+            'button': {
+                name: '按钮 (MyButton)',
+                type: 'local:MyButton',
+                properties: {
+                    'Text': { type: 'text', value: '按钮文本' },
+                    'Margin': { type: 'text', value: '0,0,0,10' },
+                    'Width': { type: 'number', value: '' },
+                    'Height': { type: 'number', value: '35' },
+                    'Padding': { type: 'text', value: '13,0,13,0' },
+                    'ColorType': { type: 'select', value: '', options: ['', 'Highlight', 'Red'] },
+                    'ToolTip': { type: 'text', value: '' }
+                }
+            },
+            'hint': {
+                name: '提示条 (MyHint)',
+                type: 'local:MyHint',
+                properties: {
+                    'Text': { type: 'textarea', value: '提示文本' },
+                    'Margin': { type: 'text', value: '0,8,0,2' },
+                    'Theme': { type: 'select', value: '', options: ['', 'Blue', 'Yellow', 'Red'] }
+                }
+            },
+            'image': {
+                name: '图片 (MyImage)',
+                type: 'local:MyImage',
+                properties: {
+                    'Source': { type: 'text', value: '' },
+                    'Height': { type: 'number', value: '50' },
+                    'Width': { type: 'number', value: '' },
+                    'HorizontalAlignment': { type: 'select', value: '', options: ['', 'Left', 'Center', 'Right', 'Stretch'] }
+                }
+            },
+            'text-button': {
+                name: '文本按钮 (MyTextButton)',
+                type: 'local:MyTextButton',
+                properties: {
+                    'Text': { type: 'text', value: '文本按钮' },
+                    'Margin': { type: 'text', value: '0,8,0,10' },
+                    'HorizontalAlignment': { type: 'select', value: 'Center', options: ['', 'Left', 'Center', 'Right', 'Stretch'] }
+                }
+            },
+            'list-item': {
+                name: '列表项 (MyListItem)',
+                type: 'local:MyListItem',
+                properties: {
+                    'Title': { type: 'text', value: '列表项标题' },
+                    'Info': { type: 'text', value: '列表项描述' },
+                    'Logo': { type: 'text', value: '' },
+                    'Margin': { type: 'text', value: '-5,2,-5,8' },
+                    'Type': { type: 'select', value: 'Clickable', options: ['', 'Clickable'] }
+                }
+            },
+            'stack-panel': {
+                name: '垂直布局 (StackPanel)',
+                type: 'StackPanel',
+                properties: {
+                    'Margin': { type: 'text', value: '25,40,23,15' },
+                    'Orientation': { type: 'select', value: 'Vertical', options: ['Vertical', 'Horizontal'] }
+                }
+            },
+            'horizontal-stack': {
+                name: '水平布局 (StackPanel)',
+                type: 'StackPanel',
+                properties: {
+                    'Margin': { type: 'text', value: '0,0,0,0' },
+                    'Orientation': { type: 'select', value: 'Horizontal', options: ['Vertical', 'Horizontal'] },
+                    'HorizontalAlignment': { type: 'select', value: 'Center', options: ['', 'Left', 'Center', 'Right', 'Stretch'] }
+                }
+            }
+        };
+
+        // 初始化拖放功能
+        document.querySelectorAll('.component-item').forEach(item => {
+            item.setAttribute('draggable', 'true');
+            
+            item.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('component-type', item.getAttribute('data-type'));
+            });
+        });
+
+        // 设计区域放置功能
+        const designArea = document.querySelector('.design-area');
+        designArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            designArea.style.backgroundColor = '#f0f7ff';
+        });
+        
+        designArea.addEventListener('dragleave', () => {
+            designArea.style.backgroundColor = '#f9f9f9';
+        });
+        
+        designArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            designArea.style.backgroundColor = '#f9f9f9';
+            
+            const compType = e.dataTransfer.getData('component-type');
+            if (compType) {
+                addComponentToDesign(compType);
+            }
+        });
+
+        // 添加组件到设计区域
+        function addComponentToDesign(type) {
+            document.querySelector('.component-placeholder').style.display = 'none';
+            
+            const compData = componentTypes[type];
+            if (!compData) return;
+            
+            const compId = 'comp-' + Date.now();
+            const compElement = document.createElement('div');
+            compElement.className = 'card';
+            compElement.id = compId;
+            compElement.innerHTML = `
+                <div class="card-header">
+                    ${compData.name}
+                    <span style="font-size: 0.8rem; opacity: 0.8;">点击编辑</span>
+                </div>
+                <div class="card-content">
+                    ${generateComponentPreview(type, compData)}
+                </div>
+            `;
+            
+            compElement.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'BUTTON') {
+                    selectComponent(compId, compData);
+                }
+            });
+            
+            // 添加到组件列表
+            components.push({
+                id: compId,
+                type: type,
+                properties: JSON.parse(JSON.stringify(compData.properties)),
+                events: {
+                    type: '',
+                    data: ''
+                }
+            });
+            
+            document.getElementById('preview-container').appendChild(compElement);
+            updateComponentCount();
+            updateStatus('已添加组件: ' + compData.name);
+        }
+
+        // 生成组件预览
+        function generateComponentPreview(type, data) {
+            switch(type) {
+                case 'card':
+                    return `<p>${data.properties.Title.value}</p>`;
+                case 'text':
+                    return `<div class="preview-element">${data.properties.Text.value}</div>`;
+                case 'button':
+                    return `<div class="button-preview">${data.properties.Text.value}</div>`;
+                case 'hint':
+                    return `<div class="hint-preview">${data.properties.Text.value}</div>`;
+                case 'image':
+                    return `<div class="preview-element">图片预览: ${data.properties.Source.value || '无图片'}</div>`;
+                case 'text-button':
+                    return `<div class="text-button-preview">${data.properties.Text.value}</div>`;
+                case 'list-item':
+                    return `
+                        <div class="preview-element">
+                            <div><strong>${data.properties.Title.value}</strong></div>
+                            <div style="font-size: 0.9rem; color: #666;">${data.properties.Info.value}</div>
+                        </div>
+                    `;
+                case 'stack-panel':
+                case 'horizontal-stack':
+                    return `<div class="preview-element">${data.name} (${data.properties.Orientation.value})</div>`;
+                default:
+                    return `<p>这是 ${data.name} 的预览</p>`;
+            }
+        }
+
+        // 选择组件
+        function selectComponent(id, data) {
+            // 移除之前选中的样式
+            if (selectedComponent) {
+                document.getElementById(selectedComponent).classList.remove('selected');
+            }
+            
+            selectedComponent = id;
+            document.getElementById(id).classList.add('selected');
+            
+            // 找到组件数据
+            const compData = components.find(c => c.id === id);
+            if (!compData) return;
+            
+            // 更新属性面板
+            document.getElementById('comp-type').value = data.name;
+            
+            // 生成属性表单
+            const propsContainer = document.getElementById('common-properties');
+            propsContainer.innerHTML = '';
+            
+            for (const [key, prop] of Object.entries(compData.properties)) {
+                const propItem = document.createElement('div');
+                propItem.className = 'property-item';
+                
+                let inputHtml = '';
+                switch (prop.type) {
+                    case 'text':
+                        inputHtml = `<input type="text" data-prop="${key}" value="${prop.value}">`;
+                        break;
+                    case 'textarea':
+                        inputHtml = `<textarea data-prop="${key}">${prop.value}</textarea>`;
+                        break;
+                    case 'number':
+                        inputHtml = `<input type="number" data-prop="${key}" value="${prop.value}">`;
+                        break;
+                    case 'boolean':
+                        inputHtml = `
+                            <select data-prop="${key}">
+                                <option value="True" ${prop.value === 'True' ? 'selected' : ''}>是</option>
+                                <option value="False" ${prop.value === 'False' ? 'selected' : ''}>否</option>
+                            </select>
+                        `;
+                        break;
+                    case 'select':
+                        let optionsHtml = '';
+                        for (const option of prop.options) {
+                            optionsHtml += `<option value="${option}" ${prop.value === option ? 'selected' : ''}>${option}</option>`;
+                        }
+                        inputHtml = `<select data-prop="${key}">${optionsHtml}</select>`;
+                        break;
+                    case 'color':
+                        inputHtml = `<input type="color" data-prop="${key}" value="${prop.value}">`;
+                        break;
+                }
+                
+                propItem.innerHTML = `
+                    <label>${key}</label>
+                    ${inputHtml}
+                `;
+                
+                propsContainer.appendChild(propItem);
+            }
+            
+            // 更新事件数据
+            document.getElementById('event-type').value = compData.events.type;
+            document.getElementById('event-data').value = compData.events.data;
+            
+            updateStatus('已选择组件: ' + data.name);
+        }
+
+        // 应用属性更改
+        function applyProperties() {
+            if (!selectedComponent) {
+                showNotification('请先选择一个组件');
+                return;
+            }
+            
+            const compData = components.find(c => c.id === selectedComponent);
+            if (!compData) return;
+            
+            // 更新属性
+            document.querySelectorAll('#common-properties [data-prop]').forEach(input => {
+                const propName = input.getAttribute('data-prop');
+                compData.properties[propName].value = input.value;
+            });
+            
+            // 更新事件
+            compData.events.type = document.getElementById('event-type').value;
+            compData.events.data = document.getElementById('event-data').value;
+            
+            // 更新预览
+            updateComponentPreview(selectedComponent, compData);
+            
+            showNotification('属性已应用');
+            updateStatus('已更新组件属性');
+        }
+
+        // 更新组件预览
+        function updateComponentPreview(id, compData) {
+            const previewElement = document.querySelector(`#${id} .card-content`);
+            if (previewElement) {
+                previewElement.innerHTML = generateComponentPreview(compData.type, compData);
+            }
+        }
+
+        // 删除组件
+        function removeComponent() {
+            if (!selectedComponent) {
+                showNotification('请先选择一个组件');
+                return;
+            }
+            
+            if (confirm('确定要删除这个组件吗？')) {
+                // 从DOM中移除
+                document.getElementById(selectedComponent).remove();
+                
+                // 从组件列表中移除
+                components = components.filter(c => c.id !== selectedComponent);
+                selectedComponent = null;
+                
+                // 如果没有组件了，显示占位符
+                if (components.length === 0) {
+                    document.querySelector('.component-placeholder').style.display = 'block';
+                }
+                
+                updateComponentCount();
+                showNotification('组件已删除');
+                updateStatus('已删除组件');
+            }
+        }
+
+        // 更新组件计数
+        function updateComponentCount() {
+            document.getElementById('component-count').textContent = `组件: ${components.length}`;
+        }
+
+        // 显示通知
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // 更新状态消息
+        function updateStatus(message) {
+            document.getElementById('status-message').textContent = message;
+        }
+
+        // 生成XAML代码
+        function generateXAML() {
+            let xaml = '<!-- 由 PCL 主页制作器生成 -->\n<!-- by mc13 -->\n\n';
+            
+            components.forEach(comp => {
+                const compType = componentTypes[comp.type].type;
+                
+                if (compType === 'local:MyCard') {
+                    xaml += `<${compType} Title="${comp.properties.Title.value}" Margin="${comp.properties.Margin.value}" CanSwap="${comp.properties.CanSwap.value}" IsSwapped="${comp.properties.IsSwapped.value}">\n`;
+                    xaml += `    <StackPanel Margin="25,40,23,15">\n`;
+                    xaml += `        <TextBlock TextWrapping="Wrap" Text="${comp.properties.Title.value}" />\n`;
+                    xaml += `    </StackPanel>\n`;
+                    xaml += `</${compType}>\n\n`;
+                } else if (compType === 'StackPanel') {
+                    xaml += `<${compType} Orientation="${comp.properties.Orientation.value}" Margin="${comp.properties.Margin.value}"`;
+                    
+                    if (comp.properties.HorizontalAlignment && comp.properties.HorizontalAlignment.value) {
+                        xaml += ` HorizontalAlignment="${comp.properties.HorizontalAlignment.value}"`;
+                    }
+                    
+                    xaml += `>\n`;
+                    xaml += `    <!-- 这里可以添加面板内容 -->\n`;
+                    xaml += `</${compType}>\n\n`;
+                } else {
+                    xaml += `<${compType} `;
+                    
+                    // 添加属性
+                    for (const [key, value] of Object.entries(comp.properties)) {
+                        if (value.value && value.value !== '') {
+                            xaml += `${key}="${value.value}" `;
+                        }
+                    }
+                    
+                    // 添加事件
+                    if (comp.events.type && comp.events.data) {
+                        xaml += `EventType="${comp.events.type}" EventData="${comp.events.data}" `;
+                    }
+                    
+                    xaml += `/>\n\n`;
+                }
+            });
+            
+            return xaml;
+        }
+
+        // 查看XAML代码
+        function viewXAML() {
+            const xamlCode = generateXAML();
+            document.getElementById('xaml-code').value = xamlCode;
+            document.getElementById('xaml-modal').style.display = 'flex';
+            updateStatus('已生成 XAML 代码');
+        }
+
+        // 保存XAML文件
+        function saveXAML() {
+            const xamlCode = generateXAML();
+            const blob = new Blob([xamlCode], { type: 'application/xaml+xml' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Custom.xaml';
+            document.body.appendChild(a);
+            a.click();
+            
+            // 清理
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 100);
+            
+            showNotification('XAML 文件已保存');
+            updateStatus('已保存 XAML 文件');
+        }
+
+        // 加载XAML文件
+        function loadXAML() {
+            document.getElementById('load-modal').style.display = 'flex';
+        }
+
+        // 初始化按钮事件
+        document.getElementById('apply-properties').addEventListener('click', applyProperties);
+        document.getElementById('remove-component').addEventListener('click', removeComponent);
+        document.getElementById('view-xaml').addEventListener('click', viewXAML);
+        document.getElementById('save-btn').addEventListener('click', saveXAML);
+        document.getElementById('load-btn').addEventListener('click', loadXAML);
+        
+        document.getElementById('clear-all').addEventListener('click', () => {
+            if (confirm('确定要清空所有组件吗？')) {
+                document.getElementById('preview-container').innerHTML = '';
+                document.querySelector('.component-placeholder').style.display = 'block';
+                components = [];
+                selectedComponent = null;
+                updateComponentCount();
+                showNotification('所有组件已清空');
+                updateStatus('已清空所有组件');
+            }
+        });
+        
+        document.getElementById('copy-xaml').addEventListener('click', () => {
+            const xamlCode = document.getElementById('xaml-code');
+            xamlCode.select();
+            document.execCommand('copy');
+            showNotification('XAML 代码已复制到剪贴板');
+            updateStatus('已复制 XAML 代码');
+        });
+        
+        document.getElementById('close-xaml').addEventListener('click', () => {
+            document.getElementById('xaml-modal').style.display = 'none';
+        });
+        
+        document.querySelectorAll('.close').forEach(closeBtn => {
+            closeBtn.addEventListener('click', () => {
+                closeBtn.closest('.modal').style.display = 'none';
+            });
+        });
+        
+        document.getElementById('confirm-load').addEventListener('click', () => {
+            const fileInput = document.getElementById('file-input');
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    try {
+                        const content = e.target.result;
+                        // 清空当前设计
+                        document.getElementById('preview-container').innerHTML = '';
+                        components = [];
+                        
+                        // 添加示例组件
+                        addComponentToDesign('card');
+                        addComponentToDesign('text');
+                        addComponentToDesign('button');
+                        
+                        document.getElementById('load-modal').style.display = 'none';
+                        showNotification('XAML 文件已加载');
+                        updateStatus('已加载 XAML 文件');
+                    } catch (error) {
+                        alert('加载文件时出错: ' + error.message);
+                        updateStatus('加载文件时出错');
+                    }
+                };
+                
+                reader.readAsText(file);
+            } else {
+                alert('请选择要加载的文件');
+            }
+        });
+        
+        document.getElementById('cancel-load').addEventListener('click', () => {
+            document.getElementById('load-modal').style.display = 'none';
+        });
+
+        // 示例：添加初始组件
+        setTimeout(() => {
+            addComponentToDesign('card');
+            addComponentToDesign('text');
+            addComponentToDesign('button');
+        }, 500);
+    </script>
+</body>
+</html>
