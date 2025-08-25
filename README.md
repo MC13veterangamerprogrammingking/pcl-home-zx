@@ -6,12 +6,12 @@
 输入
 注意:只需要一个就可以用
 ''shll
-# 使用 Python 10+
+// 使用 Python 10+
 python -m http.server 8000
 
-# 使用 Node.js
+// 使用 Node.js
 npx serve
 
-# 使用 PHP
+// 使用 PHP
 php -S localhost:8000
 ''
