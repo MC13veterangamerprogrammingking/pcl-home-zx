@@ -180,6 +180,16 @@
         
         .card-content {
             padding: 15px;
+            min-height: 100px;
+        }
+        
+        .nested-components {
+            border: 2px dashed #e0e0e0;
+            border-radius: 6px;
+            padding: 10px;
+            min-height: 80px;
+            margin-top: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
         }
         
         .button {
@@ -367,6 +377,11 @@
         .icon-hint { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232b7bba'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3C/svg%3E"); }
         .icon-image { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232b7bba'%3E%3Cpath d='M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z'/%3E%3C/svg%3E"); }
         .icon-stack { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232b7bba'%3E%3Cpath d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 2v12h16V6H4zm4 10h8v-2H8v2z'/%3E%3C/svg%3E"); }
+        
+        .drag-over {
+            background-color: #e3f2fd !important;
+            border: 2px dashed var(--primary-color) !important;
+        }
     </style>
 </head>
 <body>
@@ -546,7 +561,8 @@
                     'Margin': { type: 'text', value: '0,0,0,15' },
                     'CanSwap': { type: 'boolean', value: 'True' },
                     'IsSwapped': { type: 'boolean', value: 'False' }
-                }
+                },
+                canContain: ['text', 'button', 'hint', 'image', 'text-button', 'list-item', 'stack-panel', 'horizontal-stack']
             },
             'text': {
                 name: '文本 (TextBlock)',
@@ -557,7 +573,8 @@
                     'Margin': { type: 'text', value: '0,0,0,4' },
                     'FontSize': { type: 'number', value: '14' },
                     'Foreground': { type: 'color', value: '#000000' }
-                }
+                },
+                canContain: []
             },
             'button': {
                 name: '按钮 (MyButton)',
@@ -570,7 +587,8 @@
                     'Padding': { type: 'text', value: '13,0,13,0' },
                     'ColorType': { type: 'select', value: '', options: ['', 'Highlight', 'Red'] },
                     'ToolTip': { type: 'text', value: '' }
-                }
+                },
+                canContain: []
             },
             'hint': {
                 name: '提示条 (MyHint)',
@@ -579,7 +597,8 @@
                     'Text': { type: 'textarea', value: '提示文本' },
                     'Margin': { type: 'text', value: '0,8,0,2' },
                     'Theme': { type: 'select', value: '', options: ['', 'Blue', 'Yellow', 'Red'] }
-                }
+                },
+                canContain: []
             },
             'image': {
                 name: '图片 (MyImage)',
@@ -589,7 +608,8 @@
                     'Height': { type: 'number', value: '50' },
                     'Width': { type: 'number', value: '' },
                     'HorizontalAlignment': { type: 'select', value: '', options: ['', 'Left', 'Center', 'Right', 'Stretch'] }
-                }
+                },
+                canContain: []
             },
             'text-button': {
                 name: '文本按钮 (MyTextButton)',
@@ -598,7 +618,8 @@
                     'Text': { type: 'text', value: '文本按钮' },
                     'Margin': { type: 'text', value: '0,8,0,10' },
                     'HorizontalAlignment': { type: 'select', value: 'Center', options: ['', 'Left', 'Center', 'Right', 'Stretch'] }
-                }
+                },
+                canContain: []
             },
             'list-item': {
                 name: '列表项 (MyListItem)',
@@ -609,7 +630,8 @@
                     'Logo': { type: 'text', value: '' },
                     'Margin': { type: 'text', value: '-5,2,-5,8' },
                     'Type': { type: 'select', value: 'Clickable', options: ['', 'Clickable'] }
-                }
+                },
+                canContain: []
             },
             'stack-panel': {
                 name: '垂直布局 (StackPanel)',
@@ -617,7 +639,8 @@
                 properties: {
                     'Margin': { type: 'text', value: '25,40,23,15' },
                     'Orientation': { type: 'select', value: 'Vertical', options: ['Vertical', 'Horizontal'] }
-                }
+                },
+                canContain: ['text', 'button', 'hint', 'image', 'text-button', 'list-item', 'horizontal-stack']
             },
             'horizontal-stack': {
                 name: '水平布局 (StackPanel)',
@@ -626,7 +649,8 @@
                     'Margin': { type: 'text', value: '0,0,0,0' },
                     'Orientation': { type: 'select', value: 'Horizontal', options: ['Vertical', 'Horizontal'] },
                     'HorizontalAlignment': { type: 'select', value: 'Center', options: ['', 'Left', 'Center', 'Right', 'Stretch'] }
-                }
+                },
+                canContain: ['text', 'button', 'hint', 'image', 'text-button', 'list-item']
             }
         };
 
@@ -656,12 +680,12 @@
             
             const compType = e.dataTransfer.getData('component-type');
             if (compType) {
-                addComponentToDesign(compType);
+                addComponentToDesign(compType, 'root');
             }
         });
 
         // 添加组件到设计区域
-        function addComponentToDesign(type) {
+        function addComponentToDesign(type, parentId = 'root', index = -1) {
             document.querySelector('.component-placeholder').style.display = 'none';
             
             const compData = componentTypes[type];
@@ -671,34 +695,101 @@
             const compElement = document.createElement('div');
             compElement.className = 'card';
             compElement.id = compId;
-            compElement.innerHTML = `
+            
+            // 生成组件内容
+            let compContent = `
                 <div class="card-header">
                     ${compData.name}
                     <span style="font-size: 0.8rem; opacity: 0.8;">点击编辑</span>
                 </div>
                 <div class="card-content">
                     ${generateComponentPreview(type, compData)}
-                </div>
             `;
             
+            // 如果组件可以包含其他组件，添加嵌套区域
+            if (compData.canContain && compData.canContain.length > 0) {
+                compContent += `
+                    <div class="nested-components" data-parent="${compId}">
+                        可将其他组件拖放到此处
+                    </div>
+                `;
+            }
+            
+            compContent += `</div>`;
+            compElement.innerHTML = compContent;
+            
             compElement.addEventListener('click', (e) => {
-                if (e.target.tagName !== 'BUTTON') {
+                if (e.target.tagName !== 'BUTTON' && !e.target.closest('.nested-components')) {
                     selectComponent(compId, compData);
                 }
             });
             
+            // 设置嵌套区域的拖放事件
+            const nestedArea = compElement.querySelector('.nested-components');
+            if (nestedArea) {
+                nestedArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    nestedArea.classList.add('drag-over');
+                });
+                
+                nestedArea.addEventListener('dragleave', () => {
+                    nestedArea.classList.remove('drag-over');
+                });
+                
+                nestedArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    nestedArea.classList.remove('drag-over');
+                    
+                    const compType = e.dataTransfer.getData('component-type');
+                    if (compType && compData.canContain.includes(compType)) {
+                        addComponentToDesign(compType, compId);
+                    } else {
+                        showNotification('此组件不能包含该类型的元素');
+                    }
+                });
+            }
+            
             // 添加到组件列表
-            components.push({
+            const compObj = {
                 id: compId,
                 type: type,
+                parent: parentId,
                 properties: JSON.parse(JSON.stringify(compData.properties)),
                 events: {
                     type: '',
                     data: ''
-                }
-            });
+                },
+                children: []
+            };
             
-            document.getElementById('preview-container').appendChild(compElement);
+            components.push(compObj);
+            
+            // 添加到DOM
+            if (parentId === 'root') {
+                if (index >= 0) {
+                    const container = document.getElementById('preview-container');
+                    if (index < container.children.length) {
+                        container.insertBefore(compElement, container.children[index]);
+                    } else {
+                        container.appendChild(compElement);
+                    }
+                } else {
+                    document.getElementById('preview-container').appendChild(compElement);
+                }
+            } else {
+                // 找到父组件并添加到其嵌套区域
+                const parentElement = document.querySelector(`[data-parent="${parentId}"]`);
+                if (parentElement) {
+                    parentElement.appendChild(compElement);
+                    
+                    // 更新父组件的children数组
+                    const parentComp = components.find(c => c.id === parentId);
+                    if (parentComp) {
+                        parentComp.children.push(compId);
+                    }
+                }
+            }
+            
             updateComponentCount();
             updateStatus('已添加组件: ' + compData.name);
         }
@@ -835,7 +926,13 @@
         function updateComponentPreview(id, compData) {
             const previewElement = document.querySelector(`#${id} .card-content`);
             if (previewElement) {
-                previewElement.innerHTML = generateComponentPreview(compData.type, compData);
+                const firstChild = previewElement.firstElementChild;
+                if (firstChild && firstChild.className === 'preview-element') {
+                    firstChild.innerHTML = generateComponentPreview(compData.type, compData);
+                } else {
+                    const previewHtml = generateComponentPreview(compData.type, compData);
+                    previewElement.innerHTML = previewHtml + previewElement.innerHTML.substring(previewHtml.length);
+                }
             }
         }
 
@@ -848,10 +945,44 @@
             
             if (confirm('确定要删除这个组件吗？')) {
                 // 从DOM中移除
-                document.getElementById(selectedComponent).remove();
+                const compElement = document.getElementById(selectedComponent);
+                if (compElement) {
+                    compElement.remove();
+                }
                 
                 // 从组件列表中移除
-                components = components.filter(c => c.id !== selectedComponent);
+                const compIndex = components.findIndex(c => c.id === selectedComponent);
+                if (compIndex !== -1) {
+                    const comp = components[compIndex];
+                    
+                    // 递归删除所有子组件
+                    const deleteChildren = (compId) => {
+                        const children = components.filter(c => c.parent === compId);
+                        children.forEach(child => {
+                            const childElement = document.getElementById(child.id);
+                            if (childElement) {
+                                childElement.remove();
+                            }
+                            deleteChildren(child.id);
+                        });
+                        
+                        components = components.filter(c => c.parent !== compId);
+                    };
+                    
+                    deleteChildren(selectedComponent);
+                    
+                    // 从父组件的children数组中移除
+                    if (comp.parent !== 'root') {
+                        const parentComp = components.find(c => c.id === comp.parent);
+                        if (parentComp) {
+                            parentComp.children = parentComp.children.filter(id => id !== selectedComponent);
+                        }
+                    }
+                    
+                    // 移除组件本身
+                    components.splice(compIndex, 1);
+                }
+                
                 selectedComponent = null;
                 
                 // 如果没有组件了，显示占位符
@@ -888,45 +1019,69 @@
 
         // 生成XAML代码
         function generateXAML() {
-            let xaml = '<!-- 由 PCL 主页制作器生成 -->\n<!-- by mc13 -->\n\n';
+            let xaml = '<!-- 由 PCL 主页制作器生成 -->\n\n';
             
-            components.forEach(comp => {
-                const compType = componentTypes[comp.type].type;
-                
-                if (compType === 'local:MyCard') {
-                    xaml += `<${compType} Title="${comp.properties.Title.value}" Margin="${comp.properties.Margin.value}" CanSwap="${comp.properties.CanSwap.value}" IsSwapped="${comp.properties.IsSwapped.value}">\n`;
-                    xaml += `    <StackPanel Margin="25,40,23,15">\n`;
-                    xaml += `        <TextBlock TextWrapping="Wrap" Text="${comp.properties.Title.value}" />\n`;
-                    xaml += `    </StackPanel>\n`;
-                    xaml += `</${compType}>\n\n`;
-                } else if (compType === 'StackPanel') {
-                    xaml += `<${compType} Orientation="${comp.properties.Orientation.value}" Margin="${comp.properties.Margin.value}"`;
-                    
-                    if (comp.properties.HorizontalAlignment && comp.properties.HorizontalAlignment.value) {
-                        xaml += ` HorizontalAlignment="${comp.properties.HorizontalAlignment.value}"`;
-                    }
-                    
-                    xaml += `>\n`;
-                    xaml += `    <!-- 这里可以添加面板内容 -->\n`;
-                    xaml += `</${compType}>\n\n`;
-                } else {
-                    xaml += `<${compType} `;
-                    
-                    // 添加属性
-                    for (const [key, value] of Object.entries(comp.properties)) {
-                        if (value.value && value.value !== '') {
-                            xaml += `${key}="${value.value}" `;
-                        }
-                    }
-                    
-                    // 添加事件
-                    if (comp.events.type && comp.events.data) {
-                        xaml += `EventType="${comp.events.type}" EventData="${comp.events.data}" `;
-                    }
-                    
-                    xaml += `/>\n\n`;
-                }
+            // 生成根级组件
+            const rootComponents = components.filter(c => c.parent === 'root');
+            
+            rootComponents.forEach(comp => {
+                xaml += generateComponentXAML(comp, 0);
             });
+            
+            return xaml;
+        }
+
+        // 递归生成组件的XAML代码
+        function generateComponentXAML(comp, indentLevel) {
+            const indent = '    '.repeat(indentLevel);
+            const compType = componentTypes[comp.type].type;
+            let xaml = '';
+            
+            if (compType === 'local:MyCard') {
+                xaml += `${indent}<${compType} Title="${comp.properties.Title.value}" Margin="${comp.properties.Margin.value}" CanSwap="${comp.properties.CanSwap.value}" IsSwapped="${comp.properties.IsSwapped.value}">\n`;
+                xaml += `${indent}    <StackPanel Margin="25,40,23,15">\n`;
+                
+                // 添加子组件
+                const children = components.filter(c => c.parent === comp.id);
+                children.forEach(child => {
+                    xaml += generateComponentXAML(child, indentLevel + 2);
+                });
+                
+                xaml += `${indent}    </StackPanel>\n`;
+                xaml += `${indent}</${compType}>\n\n`;
+            } else if (compType === 'StackPanel') {
+                xaml += `${indent}<${compType} Orientation="${comp.properties.Orientation.value}" Margin="${comp.properties.Margin.value}"`;
+                
+                if (comp.properties.HorizontalAlignment && comp.properties.HorizontalAlignment.value) {
+                    xaml += ` HorizontalAlignment="${comp.properties.HorizontalAlignment.value}"`;
+                }
+                
+                xaml += `>\n`;
+                
+                // 添加子组件
+                const children = components.filter(c => c.parent === comp.id);
+                children.forEach(child => {
+                    xaml += generateComponentXAML(child, indentLevel + 1);
+                });
+                
+                xaml += `${indent}</${compType}>\n\n`;
+            } else {
+                xaml += `${indent}<${compType} `;
+                
+                // 添加属性
+                for (const [key, value] of Object.entries(comp.properties)) {
+                    if (value.value && value.value !== '') {
+                        xaml += `${key}="${value.value}" `;
+                    }
+                }
+                
+                // 添加事件
+                if (comp.events.type && comp.events.data) {
+                    xaml += `EventType="${comp.events.type}" EventData="${comp.events.data}" `;
+                }
+                
+                xaml += `/>\n\n`;
+            }
             
             return xaml;
         }
