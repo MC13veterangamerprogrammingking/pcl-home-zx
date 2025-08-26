@@ -3,13 +3,11 @@
 # 使用方法
 输入
 
-// 使用 Python 10+
+
              python -m http.server 8000            
-// 使用 Node.js
              npx serve            
-// 使用 PHP
              php -S localhost:8000          
-注:只需要一个就可以用
+注:只需要输入一个就可以用// 使用 Python 10+
 
 <h1>一次小版本更新  (A minor version update)</h1>
 <h2>v1.1</h2>
