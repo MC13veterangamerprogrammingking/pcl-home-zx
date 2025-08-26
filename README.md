@@ -2,13 +2,15 @@
 ##该储存库不是pcl-home
 # 使用方法
 输入
-注意:只需要一个就可以用
+
 // 使用 Python 10+
-python -m http.server 8000
+             python -m http.server 8000            
 // 使用 Node.js
-npx serve
+             npx serve            
 // 使用 PHP
-php -S localhost:8000
+             php -S localhost:8000          
+注:只需要一个就可以用
+
 <h1>一次小版本更新  (A minor version update)</h1>
 <h2>v1.1</h2>
 <h3>增加了卡片嵌套（Added card nesting）</h3>
