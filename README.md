@@ -1,5 +1,5 @@
-# pcl自义定主页编辑器(pcl custom homepage editor)
-##该储存库不是pcl自义定主页
+# pcl自定义主页编辑器(pcl custom homepage editor)
+##该储存库不是pcl自定义主页
 # 使用方法
 输入
 
