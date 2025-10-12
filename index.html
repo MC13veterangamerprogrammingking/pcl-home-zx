@@ -85,7 +85,7 @@
             border: 1px solid var(--border-color);
             border-radius: 6px;
             cursor: grab;
-            transition: all 0.2s;
+            transition: all 0.2;
             display: flex;
             align-items: center;
         }
@@ -165,7 +165,7 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
             margin-bottom: 15px;
             overflow: hidden;
-            transition: all 0.2s;
+            transition: all 0.2;
         }
         
         .card-header {
@@ -199,7 +199,7 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: background-color 0.2;
             font-weight: 500;
         }
         
@@ -243,7 +243,7 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            transition: all 0.2s;
+            transition: all 0.2;
         }
         
         .menu-button:hover {
@@ -1019,7 +1019,7 @@
 
         // 生成XAML代码
         function generateXAML() {
-            let xaml = '<!-- 由 PCL 主页制作器生成 -->\n\n';
+            let xaml = '<!-- 由 PCL 主页制作器生成 v1.1 by mc13 -->\n\n';
             
             // 生成根级组件
             const rootComponents = components.filter(c => c.parent === 'root');
@@ -1098,7 +1098,7 @@
         function saveXAML() {
             const xamlCode = generateXAML();
             const blob = new Blob([xamlCode], { type: 'application/xaml+xml' });
-            const url = URL.createObjectURL(blob);
+            const url = 网站.createObjectURL(blob);
             
             const a = document.createElement('a');
             a.href = url;
@@ -1109,7 +1109,7 @@
             // 清理
             setTimeout(() => {
                 document.body.removeChild(a);
-                URL.revokeObjectURL(url);
+                网站.revokeObjectURL(url);
             }, 100);
             
             showNotification('XAML 文件已保存');
